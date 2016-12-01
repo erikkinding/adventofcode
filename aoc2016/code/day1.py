@@ -3,7 +3,7 @@
 class Day1:
 
     def __init__(self):
-        self.lol = 1
+        self.visited_positions = []
 
     # Answer: 287
     def day1_1(self):
@@ -78,39 +78,42 @@ class Day1:
             # Go
             rotation = direction_factor % 4
             command_distance = int(c[1:])
+            visited = False
             if rotation == 0:
-                for i in range(command_distance):
-                    position = str(x + i) + '_' + str(y)
-                    if position in visited:
-                        distance = abs(x + i) + abs(y)
-                        print('Hit same position at: ' + str(distance))
-                        break
-                    visited.append(position)
+                visited = self.check_visited(command_distance, x, y, 'ax')
                 x += command_distance
             elif rotation == 1:
-                for i in range(command_distance):
-                    position = str(x) + '_' + str(y + i)
-                    if position in visited:
-                        distance = abs(x) + abs(y + i)
-                        print('Hit same position at: ' + str(distance))
-                        break
-                    visited.append(position)
+                visited = self.check_visited(command_distance, x, y, 'ay')
                 y += command_distance
             elif rotation == 2:
-                for i in range(command_distance):
-                    position = str(x - i) + '_' + str(y)
-                    if position in visited:
-                        distance = abs(x - i) + abs(y)
-                        print('Hit same position at: ' + str(distance))
-                        break
-                    visited.append(position)
+                visited = self.check_visited(command_distance, x, y, 'dx')
                 x -= command_distance
             elif rotation == 3:
-                for i in range(command_distance):
-                    position = str(x) + '_' + str(y - i)
-                    if position in visited:
-                        distance = abs(x) + abs(y - i)
-                        print('Hit same position at: ' + str(distance))
-                        break
-                    visited.append(position)
+                visited = self.check_visited(command_distance, x, y, 'dy')
                 y -= command_distance
+
+            if visited:
+                break
+
+    # adds steps and checks if already hit and if so returns True
+    def check_visited(self, command_distance, x, y, op):
+
+        position = ''
+        for i in range(command_distance):
+            if op == 'dy':
+                position = (x, y-i)
+            if op == 'dx':
+                position = (x-i, y)
+            if op == 'ay':
+                position = (x, y+i)
+            if op == 'ax':
+                position = (x+i, y)
+
+            if position in self.visited_positions:
+                distance = abs(position[0]) + abs(position[1])
+                print('Distance: ' + str(distance))
+                return True
+            else:
+                self.visited_positions.append(position)
+
+        return False
