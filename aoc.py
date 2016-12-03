@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from aoc2016.code import day2
+from aoc2016.code import day3
 
-day2 = day2.Day2()
+day3 = day3.Day3()
 
-day2.day2_2()
+day3.day3_2()
