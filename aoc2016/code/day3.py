@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import itertools
 
+
 class Day3:
 
     def __init__(self):
@@ -15,14 +16,11 @@ class Day3:
 
         valid_triangles = 0
         for triangle in input_file:
-            split = triangle.replace('\n', '').split('  ')
-            edges = []
-            for c in split:
-                c = c.replace(' ', '')
-                if c != '':
-                    edges.append(int(c))
+            edges = triangle.strip().split()
 
-            if edges[0] < edges[1] + edges[2] and edges[1] < edges[0] + edges[2] and edges[2] < edges[1] + edges[0]:
+            if int(edges[0]) < int(edges[1]) + int(edges[2]) \
+                    and int(edges[1]) < int(edges[0]) + int(edges[2]) \
+                    and int(edges[2]) < int(edges[1]) + int(edges[0]):
                 valid_triangles += 1
 
         print(str(valid_triangles))
@@ -36,20 +34,16 @@ class Day3:
 
         triangles = []
         for triangle in input_file:
-            split = triangle.replace('\n', '').split('  ')
-            edges = []
-            for c in split:
-                c = c.replace(' ', '')
-                if c != '':
-                    edges.append(int(c))
-            triangles.append(edges)
-
+            edges = triangle.strip().split()
+            triangles.append([int(edges[0]), int(edges[1]), int(edges[2])])
 
         index = 0
         valid_triangles = 0
         while index+3 <= len(triangles):
             for i in range(3):
-                if triangles[index][i] < triangles[index+1][i] + triangles[index+2][i] and triangles[index+1][i] < triangles[index][i] + triangles[index+2][i] and triangles[index+2][i] < triangles[index+1][i] + triangles[index][i]:
+                if triangles[index][i] < triangles[index+1][i] + triangles[index+2][i] \
+                        and triangles[index+1][i] < triangles[index][i] + triangles[index+2][i] \
+                        and triangles[index+2][i] < triangles[index+1][i] + triangles[index][i]:
                     valid_triangles += 1
             index += 3
 
