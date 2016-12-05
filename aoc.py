@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from aoc2016.code import day4
+from aoc2016.code import day5
 
-day4 = day4.Day4()
+day = day5.Day5()
 
-day4.day4_2()
+day.day5_2()
