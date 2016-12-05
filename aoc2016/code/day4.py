@@ -36,7 +36,7 @@ class Day4:
 
             # is valid
             calculated_checksum = [str(i[0]) for i in most_common[:5]]
-            if  ''.join(calculated_checksum) == checksum:
+            if ''.join(calculated_checksum) == checksum:
                 sector_id_sum += sector_id
 
         print('sum: ' + str(sector_id_sum))
@@ -72,6 +72,3 @@ class Day4:
             if 'north' in unenc:
                 print(str(sector_id) + ' | ' + unenc)
                 break
-
-
-
