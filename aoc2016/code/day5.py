@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 import hashlib
+import time
 
 class Day5:
 
     def __init__(self):
-        self.lol = 0
+        self.haxxor = True
 
     # Answer: 1a3099aa
     def day5_1(self):
@@ -39,6 +40,17 @@ class Day5:
                         password[position] = md5hash[6:7]
                 except:
                     pass
+
+            # visualized h4xx0r output
+            if self.haxxor and int(time.time()) % 3 == 0:
+                haxx = ''
+                for index, c in enumerate(password):
+                    if c == '':
+                        haxx += md5hash[index:index+1]
+                    else:
+                        haxx += '[' + c + ']'
+
+                print(haxx)
 
             inc += 1
 
