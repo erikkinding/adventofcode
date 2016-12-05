@@ -37,9 +37,7 @@ class Day5:
                     position = int(md5hash[5:6])
                     if position < 8 and password[position] == '':
                         password[position] = md5hash[6:7]
-                        print(password)
                 except:
-                    print('!!!')
                     pass
 
             inc += 1
