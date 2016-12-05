@@ -28,7 +28,7 @@ class Day5:
         room_id = 'uqwqemis'
         password = ['','','','','','','','']
         inc = 0
-        while len(set(password).intersection([''])) > 0:
+        while '' in password:
             m = hashlib.md5()
             m.update((room_id + str(inc)).encode('utf-8'))
             md5hash = m.hexdigest()
