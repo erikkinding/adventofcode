@@ -63,10 +63,10 @@ class Day7:
                     continue
 
                 triplet = stripped[idx:idx + 3]
-                if (len(triplet) == 3) and self.is_xxx(triplet):
+                if self.is_xxx(triplet):
                     continue
 
-                if len(triplet) == 3 and self.is_xyx(triplet):
+                if self.is_xyx(triplet):
                     if not in_brackets:
                         abas.append(triplet)
                     elif in_brackets:
@@ -81,11 +81,11 @@ class Day7:
 
     @staticmethod
     def is_xxx(triplet):
-        return (triplet[0] == triplet[1]) and (triplet[0] == triplet[2])
+        return len(triplet) == 3 and (triplet[0] == triplet[1]) and (triplet[0] == triplet[2])
 
     @staticmethod
-    def is_xyx(triple):
-        return triple[0] == triple[2] and triple[0] != triple[1]
+    def is_xyx(triplet):
+        return len(triplet) == 3 and triplet[0] == triplet[2] and triplet[0] != triplet[1]
 
     @staticmethod
     def aba_to_bab(aba):
