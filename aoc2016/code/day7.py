@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
-import operator
+
 
 class Day7:
 
     def __init__(self):
-        self.haxxor = True
+        pass
 
     # Answer: 118
-    def part1(self):
-        input_file = ''
+    @staticmethod
+    def part1():
         with open('aoc2016/input/day7_1.txt') as f:
             input_file = f.readlines()
 
@@ -44,7 +44,6 @@ class Day7:
 
     # Answer: 260
     def part2(self):
-        input_file = ''
         with open('aoc2016/input/day7_1.txt') as f:
             input_file = f.readlines()
 
@@ -67,11 +66,11 @@ class Day7:
                 if (len(triplet) == 3) and (triplet[0] == triplet[1]) and (triplet[0] == triplet[2]):
                     continue
 
-                if not in_brackets and len(triplet) == 3 and self.is_xyx(triplet):
-                    abas.append(triplet)
-
-                if in_brackets and len(triplet) == 3 and self.is_xyx(triplet):
-                    babs.append(triplet)
+                if len(triplet) == 3 and self.is_xyx(triplet):
+                    if not in_brackets:
+                        abas.append(triplet)
+                    elif in_brackets:
+                        babs.append(triplet)
 
             for aba in abas:
                 if self.aba_to_bab(aba) in babs:
@@ -80,8 +79,10 @@ class Day7:
 
         print(str(n_ssl))
 
-    def is_xyx(self, str):
-        return str[0] == str[2] and str[0] != str[1]
+    @staticmethod
+    def is_xyx(triple):
+        return triple[0] == triple[2] and triple[0] != triple[1]
 
-    def aba_to_bab(self, aba):
+    @staticmethod
+    def aba_to_bab(aba):
         return ''.join([aba[1], aba[0], aba[1]])
