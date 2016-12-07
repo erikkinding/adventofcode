@@ -63,7 +63,7 @@ class Day7:
                     continue
 
                 triplet = stripped[idx:idx + 3]
-                if (len(triplet) == 3) and (triplet[0] == triplet[1]) and (triplet[0] == triplet[2]):
+                if (len(triplet) == 3) and self.is_xxx(triplet):
                     continue
 
                 if len(triplet) == 3 and self.is_xyx(triplet):
@@ -78,6 +78,10 @@ class Day7:
                     break
 
         print(str(n_ssl))
+
+    @staticmethod
+    def is_xxx(triplet):
+        return (triplet[0] == triplet[1]) and (triplet[0] == triplet[2])
 
     @staticmethod
     def is_xyx(triple):
