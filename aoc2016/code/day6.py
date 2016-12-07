@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 import operator
+import itertools
+from collections import Counter
 
 class Day6:
 
@@ -7,7 +9,7 @@ class Day6:
         self.haxxor = True
 
     # Answer: qrqlznrl
-    def day6_1(self):
+    def part1(self):
         input_file = ''
         with open('aoc2016/input/day6_1.txt') as f:
             input_file = f.readlines()
@@ -28,7 +30,7 @@ class Day6:
             print(''.join(message))
 
     # Answer: kgzdfaon
-    def day6_2(self):
+    def part2(self):
         input_file = ''
         with open('aoc2016/input/day6_1.txt') as f:
             input_file = f.readlines()
@@ -47,3 +49,13 @@ class Day6:
                 message.append(min(positions[idx].items(), key=operator.itemgetter(1))[0])
 
             print(''.join(message))
+
+    def part1_alt(self):
+        file = open('aoc2016/input/day6_1.txt', 'r')
+        rows = file.read().splitlines()
+        print(''.join(map(lambda x: Counter(x).most_common(1)[0][0], zip(*rows))))
+
+    def part2_alt(self):
+        file = open('aoc2016/input/day6_1.txt', 'r')
+        rows = file.read().splitlines()
+        print(''.join(map(lambda x: Counter(x).most_common()[-1][0], zip(*rows))))
