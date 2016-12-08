@@ -4,10 +4,12 @@ import os
 
 class Day8:
 
-    def __init__(self):
+    def __init__(self, system_clear, animate):
+        self.system_clear = system_clear
+        self.animate = animate
         self.columns = 50
         self.rows = 6
-        self.screen = list(self.get_screen(self.rows, self.columns))
+        self.screen = list(self.get_screen())
         pass
 
     # Answer: 110 and ZJHRKCPLYJ
@@ -24,14 +26,13 @@ class Day8:
             elif split[1] == 'row':
                 self.rot_row(split[2], split[4])
             sleep(0.03)
-            os.system('cls')
-            self.print_screen()
+            if self.animate:
+                os.system(self.system_clear)
+                self.print_screen()
+            else:
+                self.print_screen()
+                print(str(self.count_pixels()))
 
-        # part 1, answer: 110
-        #print(str(self.count_pixels()))
-
-        # part 2, answer: ZJHRKCPLYJ
-        #self.print_screen()
 
     def count_pixels(self):
         npixels = 0
@@ -83,10 +84,10 @@ class Day8:
             for r in range(int(xy[1])):
                 self.screen[r][c] = 1
 
-    def get_screen(self, rows, columns):
-        for r in range(rows):
+    def get_screen(self):
+        for r in range(self.rows):
             row = []
-            for c in range(columns):
+            for c in range(self.columns):
                 row.append(0)
             yield row
 
