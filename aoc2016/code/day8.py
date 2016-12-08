@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-
+from time import sleep
+import os
 
 class Day8:
 
@@ -22,12 +23,15 @@ class Day8:
                 self.rot_column(split[2], split[4])
             elif split[1] == 'row':
                 self.rot_row(split[2], split[4])
+            sleep(0.03)
+            os.system('cls')
+            self.print_screen()
 
         # part 1, answer: 110
-        print(str(self.count_pixels()))
+        #print(str(self.count_pixels()))
 
         # part 2, answer: ZJHRKCPLYJ
-        self.print_screen()
+        #self.print_screen()
 
     def count_pixels(self):
         npixels = 0
