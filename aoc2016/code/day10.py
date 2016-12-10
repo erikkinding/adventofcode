@@ -4,6 +4,7 @@
 class Day10:
 
     def __init__(self):
+        # bots contain both bots and outputs for convenience
         self.bots = {}
         # self.goal = [2, 5]
         self.goal = [17, 61]
