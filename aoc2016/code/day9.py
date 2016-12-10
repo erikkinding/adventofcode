@@ -6,7 +6,7 @@ class Day9:
 
     def __init__(self):
         self.decompressed_length = 0
-        self.i = 0
+        # self.i = 0
         pass
 
     # Answer: 107035
@@ -56,6 +56,7 @@ class Day9:
 
         print(str(len(''.join(decompressed))))
 
+    # answer 11451628995
     def part2(self):
         file = open('aoc2016/input/day9_1.txt', 'r')
         data = file.read().splitlines()[0]
@@ -70,37 +71,38 @@ class Day9:
         parsing_symbol = False
         symbol = []
         symbol_string = ''
-        while self.i < len(data):
+        i = 0
+        while i < len(data):
             # begin symbol, reset old symbol
-            if not parsing_symbol and len(symbol) == 0 and data[self.i] == '(':
+            if not parsing_symbol and len(symbol) == 0 and data[i] == '(':
                 symbol = []
                 parsing_symbol = True
-                self.i += 1
+                i += 1
                 continue
 
             # end symbol
-            if parsing_symbol and data[self.i] == ')':
+            if parsing_symbol and data[i] == ')':
                 parsing_symbol = False
                 split = symbol_string.split('x')
-
                 symbol = [int(split[0]), int(split[1])]
 
-                new_data = data[self.i+1:self.i+symbol[0]+1]
-                self.i = 0
+                new_data = data[i + 1:i + symbol[0]+1]
                 self.part2_solve(new_data, factor * symbol[1])
-                self.i = 0
+
                 # +2 for ()
                 data = data[data.index('(') + len(symbol_string) + 2 + symbol[0]:]
+
+                i = 0
                 symbol = []
                 symbol_string = ''
                 continue
 
             # parse symbol
             if parsing_symbol:
-                symbol_string += data[self.i]
-                self.i += 1
+                symbol_string += data[i]
+                i += 1
                 continue
 
             # time for counting
             self.decompressed_length += factor
-            self.i += 1
+            i += 1
