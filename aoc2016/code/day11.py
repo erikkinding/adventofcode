@@ -51,27 +51,37 @@ class Day11:
 
         while not self.completed():
             # To check all possible solutions, we need try all different combinations recursively
-            to_try_tuples = list(set(map(lambda x: tuple(sorted(x)), itertools.permutations(self.current_step()[self.elevator_position], 2))))
-            to_try = list(map(lambda x: list(x), to_try_tuples))
-            to_try.extend(self.current_step()[self.elevator_position])
+            to_try = self.get_permutations()
 
             could_step = False
-            for permutations in to_try:
+            # for permutations in to_try:
+            idx = 0
+            while len(to_try) > 0:
                 # if we're at top floor but still need to move, go down
                 # if no valid moves upward for a floor, we also need to go down
                 if self.elevator_position == 3:
                     up = False
                 else:
                     up = True
-                could_step = self.step(permutations, up)
+
+                could_step = self.step(to_try[-1:], up)
                 if could_step:
-                    self.print_current_step()
-                    print('----------------' + str(self.elevator_position))
+                    # update permutations
+                    to_try = self.get_permutations()
+                    # idx = 0
+                else:
+                    to_try.pop()
 
             if not could_step:
                 # back one step and reverse
                 self.elevator_position = self.elevator_position - 1 if up else self.elevator_position + 1
                 self.steps.pop()
+
+    def get_permutations(self):
+        to_try_tuples = list(set(map(lambda x: tuple(sorted(x)), itertools.permutations(self.current_step()[self.elevator_position], 2))))
+        to_try = list(map(lambda x: list(x), to_try_tuples))
+        to_try.extend(self.current_step()[self.elevator_position])
+        return to_try
 
     def step(self, items_to_move, up):
 
@@ -125,6 +135,11 @@ class Day11:
             next_step.append(current_step[idx])
 
         self.steps.append(next_step)
+
+        # moved
+        self.print_current_step()
+        print('----------------' + str(self.elevator_position))
+        print('...')
 
     # Check if items can be left at desired floor
     # Check if items that are moved can leave their floor behind
