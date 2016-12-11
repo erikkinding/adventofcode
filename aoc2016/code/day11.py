@@ -31,10 +31,13 @@ class Day11:
         # self.elevator_position = 2
         # can_move = self.can_move(['Li_G'], self.elevator_position - 1)
         # print(str(can_move))
+        self.print_current_step()
+        print('Finished after ' + str(self.count_steps()) + ' steps')
 
     def print_current_step(self):
-        for floor in self.current_step():
-            print(floor)
+        for idx, floor in enumerate(self.current_step()):
+            elevator = '#\t' if idx == self.elevator_position else ' \t'
+            print(elevator + ' | ' + str(floor))
 
     def current_step(self):
         return self.steps[-1:][0]
@@ -42,31 +45,36 @@ class Day11:
     # recursion?
     def solve(self):
 
-        # To check all possible solutions, we need try all different combinations recursively
-        combinations_of_two = set(map(lambda x: tuple(sorted(x)), itertools.permutations(self.current_step()[self.elevator_position])))
-
-
+        if self.completed():
+            self.print_current_step()
+            print('Finished after ' + str(self.count_steps()) + ' steps')
 
         while not self.completed():
-            self.print_current_step()
-            self.step()
+            # To check all possible solutions, we need try all different combinations recursively
+            to_try_tuples = list(set(map(lambda x: tuple(sorted(x)), itertools.permutations(self.current_step()[self.elevator_position], 2))))
+            to_try = list(map(lambda x: list(x), to_try_tuples))
+            to_try.extend(self.current_step()[self.elevator_position])
 
-        self.print_current_step()
-        print('Finished after ' + str(self.count_steps()) + ' steps')
+            could_step = False
+            for permutations in to_try:
+                # if we're at top floor but still need to move, go down
+                # if no valid moves upward for a floor, we also need to go down
+                if self.elevator_position == 3:
+                    up = False
+                else:
+                    up = True
+                could_step = self.step(permutations, up)
+                if could_step:
+                    self.print_current_step()
+                    print('----------------' + str(self.elevator_position))
 
+            if not could_step:
+                # back one step and reverse
+                self.elevator_position = self.elevator_position - 1 if up else self.elevator_position + 1
+                self.steps.pop()
 
-    def step(self):
-        # current step should never be empty, so we don't need to check for that
+    def step(self, items_to_move, up):
 
-        # if we're at top floor but still need to move, go down
-        # if no valid moves upward for a floor, we also need to go down
-        if self.elevator_position == 3:
-            up = False
-        else:
-            up = True
-
-        # try to take two
-        items_to_move = self.steps[-1:][0][self.elevator_position][:1]
         can_move = self.can_move(items_to_move, up)
 
         if can_move:
@@ -75,11 +83,17 @@ class Day11:
 
             # move elevator
             self.elevator_position = self.elevator_position + 1 if up else self.elevator_position - 1
+            return True
         else:
             # pop list of steps and rollback elevator position?
-            pass
+            # maybe just return...
+            return False
 
     def move_items(self, items, up):
+        # lol
+        if isinstance(items, basestring):
+            items = [items]
+
         # next floor based on direction
         to_floor = self.elevator_position + 1 if up else self.elevator_position - 1
 
@@ -115,6 +129,10 @@ class Day11:
     # Check if items can be left at desired floor
     # Check if items that are moved can leave their floor behind
     def can_move(self, items, up):
+        # lol
+        if isinstance(items, basestring):
+            items = [items]
+
         # next floor based on direction
         to_floor = self.elevator_position + 1 if up else self.elevator_position - 1
 
@@ -170,10 +188,11 @@ class Day11:
     # Completed defined as all except top floor being empty
     # Investigate last step taken
     def completed(self):
-        for floor in self.steps[-1:][-1:]:
-            if len(floor) > 0:
-                return False
-        return True
+        # for floor in self.steps[-1:][0][3]:
+        #    if len(floor) > 0:
+        #        return False
+        # return True
+        return self.steps[-1:][0][3] == 4
 
     # Reducing initial step from count
     def count_steps(self):
