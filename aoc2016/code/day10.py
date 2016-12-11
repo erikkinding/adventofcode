@@ -9,8 +9,6 @@ class Day10:
         # self.goal = [2, 5]
         self.goal = [17, 61]
         self.check_goal = False
-        # self.output = {}
-        pass
 
     # Answer: 101
     def part1(self):
