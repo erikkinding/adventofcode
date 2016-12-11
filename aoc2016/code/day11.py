@@ -33,11 +33,19 @@ class Day11:
         # print(str(can_move))
 
     def print_current_step(self):
-        for floor in self.steps[-1:]:
+        for floor in self.current_step():
             print(floor)
+
+    def current_step(self):
+        return self.steps[-1:][0]
 
     # recursion?
     def solve(self):
+
+        # To check all possible solutions, we need try all different combinations recursively
+        combinations_of_two = set(map(lambda x: tuple(sorted(x)), itertools.permutations(self.current_step()[self.elevator_position])))
+
+
 
         while not self.completed():
             self.print_current_step()
