@@ -49,5 +49,5 @@ class Day12:
             value = int(value)
         except:
             value = self.registers[value]
-            pass
+
         return value
