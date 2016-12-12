@@ -7,11 +7,13 @@ class Day12:
         self.registers = {}
 
     # Answer: 318077
+    # Loops: 954395
     def part1(self):
         self.registers = {'a': 0, 'b': 0, 'c': 0, 'd': 0}
         self.run_instructions()
 
     # Answer: 9227731
+    # Loops: 27683406
     def part2(self):
         self.registers = {'a': 0, 'b': 0, 'c': 1, 'd': 0}
         self.run_instructions()
@@ -20,7 +22,9 @@ class Day12:
         data = open('aoc2016/input/day12.txt', 'r').read().splitlines()
 
         idx = 0
+        loops = 0
         while idx < len(data):
+            loops += 1
             split = data[idx].split()
 
             if split[0] == 'cpy':
@@ -42,6 +46,7 @@ class Day12:
             idx += 1
 
         print(self.registers)
+        print('Loops: ' + str(loops))
 
     def get_value(self, value):
         value = value
