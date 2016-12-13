@@ -66,7 +66,8 @@ class Day13:
 
         # m[1] = x, m[2] = y
         # this is pretty much A* logic i guess...
-        best_order = map(lambda c: c[1], sorted(list(zip(map(lambda m: abs(x - m[1]) + abs(y - m[2]), moves), moves))))
+        # best_order = map(lambda c: c[1], sorted(list(zip(map(lambda m: abs(self.target[0] - m[1]) + abs(self.target[1] - m[2]), moves), moves))))
+        best_order = moves
 
         # self.visited.extend(map(lambda m: m[1:], moves))
         # update visited with new distance
@@ -77,6 +78,10 @@ class Day13:
                 print("Target reached at: " + str(move[0]))
 
         return best_order
+
+    def sort_to_best(self, moves):
+        pass
+
 
     def is_possible(self, distance, x, y):
         if self.check_max_distance:
