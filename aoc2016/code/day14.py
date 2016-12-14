@@ -35,7 +35,7 @@ class Day14:
             hash_string = self.get_cached_md5(index)
 
             # find triplet
-            quintuple_for_triplet = self.find_n_occuring(hash_string, 3)
+            quintuple_for_triplet = self.find_n_occuring(hash_string, 3, 5)
 
             # found triplet, search for quintuple
             if any(quintuple_for_triplet):
@@ -65,16 +65,16 @@ class Day14:
         index = 0
         sub_index = 1
         while len(self.keys) < 64:
-            hash_string = hashlib.md5(self.salt + str(index)).hexdigest()
+            hash_string = hashlib.md5((self.salt + str(index)).encode('UTF-8')).hexdigest()
 
             # find triplet
-            triplet = self.find_n_occuring(hash_string, 3)
+            quintuple_for_triplet = self.find_n_occuring(hash_string, 3, 5)
 
             # found triplet, search for quintuple
-            if any(triplet):
+            if any(quintuple_for_triplet):
                 while sub_index <= 1000:
-                    hash_string = hashlib.md5(self.salt + str(index + sub_index)).hexdigest()
-                    if triplet[0]*5 in hash_string:
+                    hash_string = hashlib.md5((self.salt + str(index + sub_index)).encode('UTF-8')).hexdigest()
+                    if quintuple_for_triplet in hash_string:
                         self.keys.append((index, hash_string))
                         break
                     sub_index += 1
@@ -83,14 +83,14 @@ class Day14:
             index += 1
 
     @staticmethod
-    def find_n_occuring(hash_string, multiplier):
+    def find_n_occuring(hash_string, n, times):
         triplets = []
         for c in hash_string:
-            triplet = c*multiplier
+            triplet = c*n
             if triplet in hash_string:
                 triplets.append((hash_string.index(triplet), c))
 
         if any(triplets):
-            return sorted(triplets)[1][1]*5
+            return sorted(triplets)[1][1]*times
 
         return triplets
