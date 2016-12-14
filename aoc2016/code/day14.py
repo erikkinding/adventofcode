@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import hashlib
+import time
 
 class Day14:
 
@@ -17,14 +18,21 @@ class Day14:
 
     # Answer: 22429
     def part2(self):
+
+        start = time.time()
+        print('Starting at: ' + str(start))
+
         self.solve_part_2()
         print('64th key: ' + str(self.keys[-1:]))
 
-    #  44616 too high...
+        end = time.time()
+        print('Ending at: ' + str(end))
+        print('Elapsed: ' + str(end - start))
+
     def solve_part_2(self):
         # build cache
         md5cache = []
-        for i in range(30000):
+        for i in range(25000):
             dkey = hashlib.md5(self.salt + str(i)).hexdigest()
             for _ in range(2016):
                 dkey = hashlib.md5(dkey).hexdigest()
