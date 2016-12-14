@@ -8,7 +8,7 @@ class Day14:
         self.salt = 'jlmsuwbz'
         # self.salt = 'abc'
         self.keys = []
-        # self.md5cache = []
+        self.md5cache = []
         pass
 
     # Answer: 35186
@@ -18,7 +18,6 @@ class Day14:
 
     # Answer: 22429
     def part2(self):
-
         start = time.time()
         print('Starting at: ' + str(start))
 
@@ -30,35 +29,37 @@ class Day14:
         print('Elapsed: ' + str(end - start))
 
     def solve_part_2(self):
-        # build cache
-        md5cache = []
-        for i in range(25000):
-            dkey = hashlib.md5(self.salt + str(i)).hexdigest()
-            for _ in range(2016):
-                dkey = hashlib.md5(dkey).hexdigest()
-            md5cache.append(dkey)
-
         index = 0
         sub_index = 1
         while len(self.keys) < 64:
-            hash_string = md5cache[index]
+            hash_string = self.get_cached_md5(index)
 
             # find triplet
-            triplet = self.find_n_occuring(hash_string, 3)
+            quintuple_for_triplet = self.find_n_occuring(hash_string, 3)
 
             # found triplet, search for quintuple
-            if any(triplet):
+            if any(quintuple_for_triplet):
                 while sub_index <= 1000:
-                    sub_hash_string = md5cache[index + sub_index]
+                    sub_hash_string = self.get_cached_md5(index + sub_index)
 
-                    if triplet[0] * 5 in sub_hash_string:
+                    if quintuple_for_triplet in sub_hash_string:
                         self.keys.append((index, sub_hash_string))
-                        print(str(index) + ' | ' + str(index) + ': ' + sub_hash_string)
+                        # print(str(index) + ' | ' + str(index) + ': ' + sub_hash_string)
                         break
                     sub_index += 1
                 sub_index = 1
 
             index += 1
+
+    def get_cached_md5(self, index):
+        if index >= len(self.md5cache):
+            key = hashlib.md5((self.salt + str(index)).encode('UTF-8')).hexdigest()
+            for _ in range(2016):
+                key = hashlib.md5(key.encode('UTF-8')).hexdigest()
+            self.md5cache.append(key)
+            return key
+        else:
+            return self.md5cache[index]
 
     def solve(self):
         index = 0
@@ -87,9 +88,9 @@ class Day14:
         for c in hash_string:
             triplet = c*multiplier
             if triplet in hash_string:
-                triplets.append((hash_string.index(triplet), triplet))
+                triplets.append((hash_string.index(triplet), c))
 
         if any(triplets):
-            return sorted(triplets)[1][1]
+            return sorted(triplets)[1][1]*5
 
         return triplets
