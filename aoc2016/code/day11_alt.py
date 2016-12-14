@@ -22,14 +22,14 @@ class Day11_alt:
         self.state = {
             'elevator_level': 0,
             #          M  G    M  G
-            'pairs': ((0, 1), (0, 2)),
+            'pairs': [(0, 1), (0, 2)],
             'distance': 0
         }
 
         # Initialize with starting position at distance 0
         self.visited.append((self.state['pairs'], 0))
-        self.solve()
-
+        # self.solve()
+        print(self.reachable(self.state['elevator_level'], self.state['pairs']))
         #print(str(self.valid_state(self.state['pairs'])))
 
     def solve(self):
@@ -44,36 +44,43 @@ class Day11_alt:
 
     # "reachable nodes"
     def reachable(self, elevator_level, pairs):
-        attempted_state = pairs
-        for pair in pairs:
-            if
-        return []
+        # Only try to change state of items on current floor (elevator_level)
+        # Include index of "pairs" for mapping later on
+        to_include_in_permutations = []
+        for idx, pair in enumerate(pairs):
+            if pair[0] == elevator_level:
+                to_include_in_permutations.append((idx, 0))
+            if pair[1] == elevator_level:
+                to_include_in_permutations.append((idx, 1))
 
-    def can_move(self, items, elevator_level):
-        if elevator_level > 3:
-            return False
-        if elevator_level < 0:
-            return False
+        # "permutations" is both all possible pairs and items alone
+        permutations = list(set(map(
+            lambda y: tuple(sorted(y)), itertools.permutations(map(
+                lambda x: (x[0], x[1]), to_include_in_permutations)))))
 
-        test_floor = []
-        # create a setup of items to verify
-        items_on_next_floor = self.steps[-1:][0][to_floor]
-        if len(items_on_next_floor) > 0:
-            test_floor.extend(items_on_next_floor)
-        test_floor.extend(items)
-        next_floor_valid = self.valid_floor(test_floor)
+        # add single items
+        for item in to_include_in_permutations:
+            permutations.append(item)
 
-        if not next_floor_valid:
-            return False
+        # possible next states are a list of lists of tuples
+        #   - a list of tuples is a state
+        possible_next_states = []
+        # try to go up with all of them
+        if elevator_level < 3:
+            for perm in permutations:
+                pass
 
-        # remove items from current floor and test what is left
-        current_floor = list(self.steps[-1:][0][self.elevator_position])
-        for item in items:
-            for idx, citem in enumerate(current_floor):
-                if citem == item:
-                    del (current_floor[idx])
+            pass
 
-        return self.valid_floor(current_floor)
+        # try to go down with all of them
+        if elevator_level > 0:
+            pass
+
+        return permutations
+
+
+    def visited(self, pairs):
+        return hash(pairs) in self.visited
 
     @staticmethod
     def valid_state(pairs):
