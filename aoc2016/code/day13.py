@@ -12,8 +12,8 @@ class Day13:
         # self.office_number = 10
         # self.target = (7, 4)
 
-        self.grid_x = 10
-        self.grid_y = 10
+        self.grid_x = 60
+        self.grid_y = 60
 
         self.visited = {}
         self.possible_routes = []
@@ -41,7 +41,7 @@ class Day13:
         possible_moves = [move]
         while any(possible_moves):
             # where are we?
-            # self.print_grid()
+            self.print_grid()
 
             # remove one from queue
             move = possible_moves.pop()
