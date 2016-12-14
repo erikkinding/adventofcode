@@ -29,8 +29,9 @@ class Day11_alt:
         # Initialize with starting position at distance 0
         self.visited.append((self.state['pairs'], 0))
         # self.solve()
-        print(self.reachable(self.state['elevator_level'], self.state['pairs']))
+        #print(self.reachable(self.state['elevator_level'], self.state['pairs']))
         #print(str(self.valid_state(self.state['pairs'])))
+        print(self.combinations([(0, 0), (1, 0)], 3))
 
     def solve(self):
 
@@ -53,34 +54,68 @@ class Day11_alt:
             if pair[1] == elevator_level:
                 to_include_in_permutations.append((idx, 1))
 
-        # "permutations" is both all possible pairs and items alone
-        permutations = list(set(map(
-            lambda y: tuple(sorted(y)), itertools.permutations(map(
-                lambda x: (x[0], x[1]), to_include_in_permutations)))))
+        # permutations holds a list of possible states if we move something(s)
+        permutations = []
 
-        # add single items
-        for item in to_include_in_permutations:
-            permutations.append(item)
+        # for idx in range(len())
+
+
+
+        # "permutations" is both all possible pairs and items alone
+        # apply +- one level for the item
+        #permutations = []
+        #if elevator_level < 3:
+        #    permutations.append(list(set(map(
+        #        lambda y: tuple(sorted(y)), itertools.permutations(map(
+        #            lambda x: (x[0], x[1] + 1), to_include_in_permutations), 2)))))
+
+        #if elevator_level > 0:
+        #    permutations.append(list(set(map(
+        #        lambda y: tuple(sorted(y)), itertools.permutations(map(
+        #            lambda x: (x[0], x[1] - 1), to_include_in_permutations), 2)))))
+
+
+        # try moving pairs first
+
+        # then singles
+
+        #if elevator_level < 3:
+        #    for item in to_include_in_permutations:
+        #        permutations.append((item[0], item[1] + 1))
+
+        #if elevator_level > 0:
+        #    for item in to_include_in_permutations:
+        #        permutations.append((item[0], item[1] - 1))
+
 
         # possible next states are a list of lists of tuples
         #   - a list of tuples is a state
-        possible_next_states = []
+        #
         # try to go up with all of them
-        if elevator_level < 3:
-            for perm in permutations:
-                pass
-
-            pass
-
-        # try to go down with all of them
-        if elevator_level > 0:
-            pass
+        # possible_next_states = []
 
         return permutations
 
-
     def visited(self, pairs):
         return hash(pairs) in self.visited
+
+    def apply_move_to_combination(self, combination):
+        modified = []
+        for combination
+
+    @staticmethod
+    # [tuple, (tuple, tuple), tuple]
+    def combinations(items):
+        combinations = []
+
+        for idx in range(len(items)):
+            # add singles
+            combinations.append(items[idx])
+            for kdx in range(len(items)):
+                if idx != kdx and (items[kdx], items[idx]) not in combinations:
+                    combinations.append((items[idx], items[kdx]))
+                    continue
+        return combinations
 
     @staticmethod
     def valid_state(pairs):
