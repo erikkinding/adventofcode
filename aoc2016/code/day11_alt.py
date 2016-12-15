@@ -101,7 +101,6 @@ class Day11_alt:
 
     def apply_move_to_combination(self, combination):
         modified = []
-        for combination
 
     @staticmethod
     # [tuple, (tuple, tuple), tuple]
