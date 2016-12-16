@@ -31,7 +31,8 @@ class Day11_alt:
         # self.solve()
         #print(self.reachable(self.state['elevator_level'], self.state['pairs']))
         #print(str(self.valid_state(self.state['pairs'])))
-        print(self.combinations([(0, 0), (1, 0)], 3))
+        #print(self.combinations([(0, 0), (1, 0)]))
+        print(self.reachable(self.state['elevator_level'], self.state['pairs']))
 
     def solve(self):
 
@@ -41,6 +42,9 @@ class Day11_alt:
         for move in moves:
             moves.append(self.reachable(move))
 
+        pass
+
+    def possible_states(self, combinations):
         pass
 
     # "reachable nodes"
@@ -55,46 +59,47 @@ class Day11_alt:
                 to_include_in_permutations.append((idx, 1))
 
         # permutations holds a list of possible states if we move something(s)
-        permutations = []
+        combinations = self.combinations(to_include_in_permutations)
 
-        # for idx in range(len())
+        # start with (0, 1)
+        states = []
+        for combination in combinations:
+            possible_state = list(pairs)
+            idx = 0
+            while idx < len(combination):
+                if isinstance(combination[idx], tuple):
+                    # handle move of two items
+                    for sub_part in combination:
+                        current = possible_state[sub_part[idx]]
+                        new_value = possible_state[sub_part[idx]][sub_part[idx]] + 1
+                        possible_state[sub_part[idx]] = self.change_tuple(current, sub_part[0], new_value)
+                        idx +=1
+
+                    if self.valid_state(possible_state):
+                        states.append(possible_state)
+                    idx += 2
+                    # handle sinlge move
+                else:
+                    # the pair to affect, and what item in pair
+                    current = possible_state[combination[idx]]
+                    new_value = possible_state[combination[idx]][combination[idx]] + 1
+                    possible_state[combination[idx]] = self.change_tuple(current, combination[0], new_value)
+
+                    if self.valid_state(possible_state):
+                        states.append(possible_state)
+
+                    # jump forward
+                    idx+=2
 
 
+        return combinations
 
-        # "permutations" is both all possible pairs and items alone
-        # apply +- one level for the item
-        #permutations = []
-        #if elevator_level < 3:
-        #    permutations.append(list(set(map(
-        #        lambda y: tuple(sorted(y)), itertools.permutations(map(
-        #            lambda x: (x[0], x[1] + 1), to_include_in_permutations), 2)))))
+    @staticmethod
+    def change_tuple(values, idx, new_value):
+        if idx == 0:
+            return (new_value, values[1])
+        return (values[0], new_value)
 
-        #if elevator_level > 0:
-        #    permutations.append(list(set(map(
-        #        lambda y: tuple(sorted(y)), itertools.permutations(map(
-        #            lambda x: (x[0], x[1] - 1), to_include_in_permutations), 2)))))
-
-
-        # try moving pairs first
-
-        # then singles
-
-        #if elevator_level < 3:
-        #    for item in to_include_in_permutations:
-        #        permutations.append((item[0], item[1] + 1))
-
-        #if elevator_level > 0:
-        #    for item in to_include_in_permutations:
-        #        permutations.append((item[0], item[1] - 1))
-
-
-        # possible next states are a list of lists of tuples
-        #   - a list of tuples is a state
-        #
-        # try to go up with all of them
-        # possible_next_states = []
-
-        return permutations
 
     def visited(self, pairs):
         return hash(pairs) in self.visited
