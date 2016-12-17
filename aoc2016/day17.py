@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import hashlib
-import time
 
 class Day17:
 
@@ -18,16 +17,12 @@ class Day17:
         print(''.join(self.best_path[0]))
 
     # Answer: 384
-    # solved in 5.37187504768
     def part2(self):
         self.skip_check_distance = True
+
         self.passcode = 'vwbaicqe'
-        t0 = time.time()
-        self.solve_2()
-        print('solved in ' + str(time.time() - t0) + 's')
-
+        self.solve()
         worst = sorted(self.paths, key=lambda x: len(x))[-1:][0]
-
         print(str(len(worst)) + ' | ' + worst)
 
     def solve(self):
@@ -43,46 +38,14 @@ class Day17:
 
                 if self.hit_target(pn[1], pn[2]):
                     self.best_path = pn
-                else:
-                    possible_steps.append(pn)
-
-    def solve_2(self):
-
-        possible_steps = self.get_possible_steps([[], 0, 0])
-
-        while any(possible_steps):
-
-            step = possible_steps.pop()
-
-            possible_next = self.get_possible_steps(step)
-            for pn in possible_next:
-
-                if self.hit_target(pn[1], pn[2]):
                     self.paths.append(''.join(pn[0]))
                 else:
                     possible_steps.append(pn)
 
-
     def hit_target(self, x, y):
         return (x, y) == self.target
 
-    def position_from_path(self, path):
-        x = 0
-        y = 0
-        for step in path:
-            if step[0] == 'U':
-                y -= 1
-            if step[0] == 'D':
-                y += 1
-            if step[0] == 'L':
-                x -= 1
-            if step[0] == 'R':
-                x += 1
-
-        return (x, y)
-
     def get_possible_steps(self, path_):
-        # position = self.position_from_path(path)
 
         # current distance
         current_distance = len(path_[0])
