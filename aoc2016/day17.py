@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import hashlib
+import time
 
 class Day17:
 
@@ -14,13 +15,16 @@ class Day17:
     def part1(self):
         self.passcode = 'vwbaicqe'
         self.solve()
-        print(''.join(self.best_path))
+        print(''.join(self.best_path[0]))
 
-    # Answer: DRDRULRDRD
+    # Answer: 384
+    # solved in 5.37187504768
     def part2(self):
         self.skip_check_distance = True
         self.passcode = 'vwbaicqe'
+        t0 = time.time()
         self.solve_2()
+        print('solved in ' + str(time.time() - t0) + 's')
 
         worst = sorted(self.paths, key=lambda x: len(x))[-1:][0]
 
@@ -28,7 +32,7 @@ class Day17:
 
     def solve(self):
 
-        possible_steps = self.get_possible_steps([])
+        possible_steps = self.get_possible_steps([[], 0, 0])
 
         while any(possible_steps):
 
@@ -37,14 +41,14 @@ class Day17:
             possible_next = self.get_possible_steps(step)
             for pn in possible_next:
 
-                if self.hit_target(pn):
+                if self.hit_target(pn[1], pn[2]):
                     self.best_path = pn
                 else:
                     possible_steps.append(pn)
 
     def solve_2(self):
 
-        possible_steps = self.get_possible_steps([])
+        possible_steps = self.get_possible_steps([[], 0, 0])
 
         while any(possible_steps):
 
@@ -53,14 +57,14 @@ class Day17:
             possible_next = self.get_possible_steps(step)
             for pn in possible_next:
 
-                if self.hit_target(pn):
-                    self.paths.append(''.join(pn))
+                if self.hit_target(pn[1], pn[2]):
+                    self.paths.append(''.join(pn[0]))
                 else:
                     possible_steps.append(pn)
 
 
-    def hit_target(self, path):
-        return self.position_from_path(path) == self.target
+    def hit_target(self, x, y):
+        return (x, y) == self.target
 
     def position_from_path(self, path):
         x = 0
@@ -77,39 +81,39 @@ class Day17:
 
         return (x, y)
 
-    def get_possible_steps(self, path):
-        position = self.position_from_path(path)
+    def get_possible_steps(self, path_):
+        # position = self.position_from_path(path)
 
         # current distance
-        current_distance = len(path)
+        current_distance = len(path_[0])
 
         # U D L R
-        open_doors = self.open_doors(path)
+        open_doors = self.open_doors(path_[0])
 
         new_paths = []
 
         # UP
-        if position[1] > 0 and open_doors[0]:
+        if path_[2] > 0 and open_doors[0]:
             if self.better_path(current_distance):
-                new_path = path + ['U']
+                new_path = [path_[0] + ['U'], path_[1], path_[2] - 1]
                 new_paths.append(new_path)
 
         # DOWN
-        if position[1] < 3 and open_doors[1]:
+        if path_[2] < 3 and open_doors[1]:
             if self.better_path(current_distance):
-                new_path = path + ['D']
+                new_path = [path_[0] + ['D'], path_[1], path_[2] + 1]
                 new_paths.append(new_path)
 
         # LEFT
-        if position[0] > 0 and open_doors[2]:
+        if path_[1] > 0 and open_doors[2]:
             if self.better_path(current_distance):
-                new_path = path + ['L']
+                new_path = [path_[0] + ['L'], path_[1] - 1, path_[2]]
                 new_paths.append(new_path)
 
         # RIGHT
-        if position[0] < 3 and open_doors[3]:
+        if path_[1] < 3 and open_doors[3]:
             if self.better_path(current_distance):
-                new_path = path + ['R']
+                new_path = [path_[0] + ['R'], path_[1] + 1, path_[2]]
                 new_paths.append(new_path)
 
         return new_paths
@@ -120,13 +124,13 @@ class Day17:
         else:
             if len(self.best_path) == 0:
                 return True
-            if current_distance <= len(self.best_path):
+            if current_distance <= len(self.best_path[0]):
                 return True
 
     def open_doors(self, possible_path):
         # U D L R
         open_doors = []
-        pass_string = self.passcode + ''.join(map(lambda x: x[0], possible_path))
+        pass_string = self.passcode + ''.join(possible_path)
         open_doors_hash = hashlib.md5(pass_string.encode('UTF-8')).hexdigest()[:4]
 
         open_chars = ['b', 'c', 'd', 'e', 'f']
