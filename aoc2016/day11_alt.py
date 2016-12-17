@@ -9,7 +9,7 @@ class Day11_alt:
         # F3 .  .  .  LG .
         # F2 .  HG .  .  .
         # F1 E  .  HM .  LM
-        #
+        # [ [0, 1, 0, 2, 0]
         # init state
         # state: elevator level, pairs, distance
         self.state = {}
@@ -28,10 +28,6 @@ class Day11_alt:
 
         # Initialize with starting position at distance 0
         self.visited.append((self.state['pairs'], 0))
-        # self.solve()
-        #print(self.reachable(self.state['elevator_level'], self.state['pairs']))
-        #print(str(self.valid_state(self.state['pairs'])))
-        #print(self.combinations([(0, 0), (1, 0)]))
         print(self.reachable(self.state['elevator_level'], self.state['pairs']))
 
     def solve(self):
@@ -62,6 +58,7 @@ class Day11_alt:
         combinations = self.combinations(to_include_in_permutations)
 
         # start with (0, 1)
+        # then  with ((1,0), (0,1))
         states = []
         for combination in combinations:
             possible_state = list(pairs)
@@ -70,8 +67,8 @@ class Day11_alt:
                 if isinstance(combination[idx], tuple):
                     # handle move of two items
                     for sub_part in combination:
-                        current = possible_state[sub_part[idx]]
-                        new_value = possible_state[sub_part[idx]][sub_part[idx]] + 1
+                        current = possible_state[sub_part[0]]
+                        new_value = possible_state[idx][sub_part[1]] + 1
                         possible_state[sub_part[idx]] = self.change_tuple(current, sub_part[0], new_value)
                         idx +=1
 
