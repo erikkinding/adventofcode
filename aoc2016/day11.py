@@ -11,36 +11,41 @@ class Day11:
         # state with distance
         self.visited_states = {}
 
-    # Answer: 37, 61
+        # Initialize with starting position at distance 0
+        #                 E  G  M  G  M   Distance
+        # start_state = ([0, 1, 0, 2, 0], 0)  # 11 steps
+        # start_state = ([0, 1, 0, 2, 0, 0, 0], 0)  # 21 steps
+
+    # Answer: 37
     def part1(self):
         t0 = time.time()
-        self.solve()
+        start_state = ([0, 0, 0, 0, 0, 1, 2, 1, 1, 1, 1], 0)  # 37 steps
+        self.solve(start_state)
         print('Best path: ' + str(self.best_path_steps))
         print('Elapsed: ' + str(time.time() - t0) + 's')
 
-    def solve(self):
-        # Initialize with starting position at distance 0
-        #               E  G  M  G  M   Distance
-        start_state = ([0, 1, 0, 2, 0], 0)
-        start_state = ([0, 1, 0, 2, 0, 0, 0], 0) # 21 steps
-        start_state = ([0, 0, 0, 0, 0, 1, 2, 1, 1, 1, 1], 0) # 37 steps
-        start_state = ([0, 0, 0, 0, 0, 1, 2, 1, 1, 1, 1, 0, 0, 0, 0], 0) # 61 steps
-        self.better_path(start_state)
+    # Answer: 61
+    def part2(self):
+        t0 = time.time()
+        start_state = ([0, 0, 0, 0, 0, 1, 2, 1, 1, 1, 1, 0, 0, 0, 0], 0)  # 61 steps
+        self.solve(start_state)
+        print('Best path: ' + str(self.best_path_steps))
+        print('Elapsed: ' + str(time.time() - t0) + 's')
+
+
+    def solve(self, start_state):
 
         # set init in visited
-        self.valid_state(start_state)
+        self.better_path(start_state)
 
         possible_moves = self.possible_moves(start_state)
 
         while any(possible_moves):
             current = possible_moves.pop(0)
-
             next_from_current = self.possible_moves(current)
 
             for next in next_from_current:
                 possible_moves.append(next)
-
-
 
     def hit_target(self, state):
         state_items = state[0]
@@ -100,7 +105,7 @@ class Day11:
                     print(next_state[1])
                     if self.best_path_steps > next_state[1]:
                         self.best_path_steps = next_state[1]
-                    continue
+                    return []
 
                 if self.valid_state(next_state) and self.better_path(next_state):
                     possible_next_states.append(next_state)
@@ -160,8 +165,8 @@ class Day11:
             idx += 2
 
         to_hash = elevator_level + sorted(state_pair_tuples)
-        distance = state[1]
         state_hash = hash(tuple(to_hash))
+        distance = state[1]
 
         if not state_hash in self.visited_states.keys():
             self.visited_states[state_hash] = distance
