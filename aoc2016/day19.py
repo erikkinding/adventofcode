@@ -21,13 +21,13 @@ class Day19:
     # Answer:
     def part2(self):
         t0 = time.time()
-        self.solve2(5)
+        # self.solve2(5)
         # self.solve2(8)
         # self.solve2(11)
         # self.solve2(12)
         # self.solve2(13)
         # self.solve2(14)
-        # self.solve2(3012210)
+        self.solve2(3012210)
         print('Elapsed: ' + str(time.time() - t0) + 's')
 
     def solve(self, n_elves):
@@ -53,12 +53,11 @@ class Day19:
         elf_idx = 0
         while len(elves) > 1:
             # just yank from across
-            # 6 / 2 == 3 (idx 2)
             elves_left = len(elves)
             to_steal_idx = (int(elves_left / 2) + elf_idx) % elves_left
 
             del elves[to_steal_idx]
-            elf_idx = (elf_idx + 1) % (elves_left - 1)
+            elf_idx = (elf_idx + 1) % (elves_left)
 
 
         print(str(n_elves) + ' | ' + str(elves[0]))
