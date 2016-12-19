@@ -22,6 +22,7 @@ class Day19:
     def part2(self):
         t0 = time.time()
         # self.solve2(5)
+        # self.solve2(6)
         # self.solve2(8)
         # self.solve2(11)
         # self.solve2(12)
@@ -44,6 +45,8 @@ class Day19:
 
         print(str(n_elves) + ' | ' + str(elves[0]))
 
+    # 31682 too low...
+    # 620727 too low..., 1782s
     def solve2(self, n_elves):
         # setup elf circle, poi sticks and presents, fuckin douche bags
         elves = []
@@ -57,7 +60,13 @@ class Day19:
             to_steal_idx = (int(elves_left / 2) + elf_idx) % elves_left
 
             del elves[to_steal_idx]
-            elf_idx = (elf_idx + 1) % (elves_left)
+
+            # only move if something ahead in the list was removed
+            if to_steal_idx > elf_idx:
+                elf_idx += 1
+
+            if elf_idx >= elves_left:
+                elf_idx = 0
 
 
         print(str(n_elves) + ' | ' + str(elves[0]))
