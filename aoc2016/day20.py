@@ -12,6 +12,10 @@ class Day20:
         self.solve()
         print('Elapsed: ' + str(time.time() - t0) + 's')
 
+    def part2(self):
+        t0 = time.time()
+        self.solve2()
+        print('Elapsed: ' + str(time.time() - t0) + 's')
 
     def solve(self):
         data = open('aoc2016/input/day20.txt', 'r').read().splitlines()
@@ -25,7 +29,7 @@ class Day20:
 
         i = 0
         lowest = 2147483647
-        allowed = []
+
         while i <= 2147483647:
             in_range = False
             for r in sorted_ranges:
@@ -34,16 +38,41 @@ class Day20:
                     break
 
             if not in_range:
-                #if i < lowest:
-                #    lowest = i
-                allowed.append(i)
-                print('New IP: ' + str(i))
-                # i+= 1
+                lowest = i
+                print('New lowest: ' + str(i))
+                break
 
             i += 1
 
-        print('-----------------------')
         print('Lowest: ' + str(lowest))
-        print('N IPs: ' + str(len(allowed)))
 
-        # part 2: 73 too low...
+
+    # part 2: 73 too low...
+    def solve2(self):
+
+        data = open('aoc2016/input/day20.txt', 'r').read().splitlines()
+
+        ranges = []
+        for row in data:
+            split = row.split('-')
+            ranges.append( [int(split[0]), int(split[1])])
+
+        sorted_ranges = sorted(ranges)
+        print(sorted_ranges)
+        stretched_ranges = []
+
+        stretched_ranges.append(sorted_ranges[0])
+        for r in sorted_ranges:
+            for sr in stretched_ranges:
+                # if hit, stretch range
+                if r[0] in range(sr[0], sr[1]):
+                    sr[1] = r[1]
+                # no hit, add new range
+                else:
+                    sr.append(r)
+
+        print(stretched_ranges)
+
+        allowed = []
+        print('N IPs: ' + str(len(allowed)))
+        pass
