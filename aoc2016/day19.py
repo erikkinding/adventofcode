@@ -21,14 +21,11 @@ class Day19:
     # Answer:
     def part2(self):
         t0 = time.time()
-        # self.solve2(5)
-        # self.solve2(6)
-        # self.solve2(8)
-        # self.solve2(11)
-        # self.solve2(12)
-        # self.solve2(13)
-        # self.solve2(14)
-        self.solve3(3012210)
+        #self.solve2(5) # -> 2
+        #self.solve2(6) # -> 3
+        #self.solve2(7) # -> 5
+        #self.solve2(8) # -> 7
+        self.solve2(3012210)
         print('Elapsed: ' + str(time.time() - t0) + 's')
 
     def solve(self, n_elves):
@@ -45,26 +42,10 @@ class Day19:
 
         print(str(n_elves) + ' | ' + str(elves[0]))
 
-    def solve3(self, n_elves):
-        # setup elf circle, poi sticks and presents, fuckin douche bags
-        elves = []
-        for i in range(n_elves):
-            elves.append(i+1)
-
-        while len(elves) > 1:
-
-            elves_left = len(elves)
-            half_list_step = int(elves_left / 2)
-
-            if len(elves) % 2 > 0:
-                elves = elves[::half_list_step][1:]
-            else:
-                elves = elves[::half_list_step]
-
-        print(str(n_elves) + ' | ' + str(elves[0]))
-
     # 31682 too low...
     # 620727 too low..., 1782s
+    # 1506105 too high....
+    # 1417887 was right! 841s
     def solve2(self, n_elves):
         # setup elf circle, poi sticks and presents, fuckin douche bags
         elves = []
@@ -78,6 +59,7 @@ class Day19:
             to_steal_idx = (int(elves_left / 2) + elf_idx) % elves_left
 
             del elves[to_steal_idx]
+            elves_left -= 1
 
             # only move if something ahead in the list was removed
             if to_steal_idx > elf_idx:
@@ -86,4 +68,4 @@ class Day19:
             if elf_idx >= elves_left:
                 elf_idx = 0
 
-        print(str(n_elves) + ' | ' + str(elves[0]))
+        print(str(n_elves) + ' | winner: ' + str(elves[0]))

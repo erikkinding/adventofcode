@@ -14,8 +14,8 @@ def main():
     # day16.Day16().part2()
     # day17.Day17().part2()
     # day18.Day18().part2()
-    #day19.Day19().part2()
-    day20.Day20().part1()
+    day19.Day19().part2()
+    # day20.Day20().part1()
 
 if __name__ == "__main__":
     main()
