@@ -59,19 +59,21 @@ class Day20:
 
         sorted_ranges = sorted(ranges)
         print(sorted_ranges)
-        stretched_ranges = []
+        stretched_ranges = [sorted_ranges[0]]
 
-        stretched_ranges.append(sorted_ranges[0])
         for r in sorted_ranges:
             for sr in stretched_ranges:
                 # if hit, stretch range
-                if r[0] in range(sr[0], sr[1]):
+                if r[0] in range(sr[0], sr[1]+1):
                     sr[1] = r[1]
                 # no hit, add new range
                 else:
-                    sr.append(r)
+                    stretched_ranges.append(r)
 
         print(stretched_ranges)
+
+        print('N ranges: ' + str(len(sorted_ranges)))
+        print('S ranges: ' + str(len(stretched_ranges)))
 
         allowed = []
         print('N IPs: ' + str(len(allowed)))

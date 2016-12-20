@@ -28,7 +28,7 @@ class Day19:
         # self.solve2(12)
         # self.solve2(13)
         # self.solve2(14)
-        self.solve2(3012210)
+        self.solve3(3012210)
         print('Elapsed: ' + str(time.time() - t0) + 's')
 
     def solve(self, n_elves):
@@ -42,6 +42,24 @@ class Day19:
                 elves = elves[::2][1:]
             else:
                 elves = elves[0::2]
+
+        print(str(n_elves) + ' | ' + str(elves[0]))
+
+    def solve3(self, n_elves):
+        # setup elf circle, poi sticks and presents, fuckin douche bags
+        elves = []
+        for i in range(n_elves):
+            elves.append(i+1)
+
+        while len(elves) > 1:
+
+            elves_left = len(elves)
+            half_list_step = int(elves_left / 2)
+
+            if len(elves) % 2 > 0:
+                elves = elves[::half_list_step][1:]
+            else:
+                elves = elves[::half_list_step]
 
         print(str(n_elves) + ' | ' + str(elves[0]))
 
@@ -67,6 +85,5 @@ class Day19:
 
             if elf_idx >= elves_left:
                 elf_idx = 0
-
 
         print(str(n_elves) + ' | ' + str(elves[0]))
