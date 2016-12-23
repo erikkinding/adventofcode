@@ -7,7 +7,9 @@ from aoc2016 import day18
 from aoc2016 import day19
 from aoc2016 import day20
 from aoc2016 import day21
-
+from aoc2016 import day22
+from aoc2016 import day23
+# from misc import swap_board
 
 def main():
 
@@ -17,7 +19,10 @@ def main():
     # day18.Day18().part2()
     # day19.Day19().part2()
     # day20.Day20().part1()
-    day21.Day21().part2()
+    # day21.Day21().part2()
+    # day22.Day22().part2()
+    day23.Day23().part2()
+    # swap_board.SwapBoard().run()
 
 if __name__ == "__main__":
     main()
