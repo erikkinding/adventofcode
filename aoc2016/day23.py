@@ -18,11 +18,8 @@ class Day23:
         self.run_instructions()
         print('Elapsed: ' + str(time.time() - t0) + 's')
 
-    # 6 -> 6684
-    # 7 -> 11004
-    # 8 -> 312954
-    # 9 -> 368844
-    # X -> 3634764
+    # Answer: 479007564
+    # Took 6284s and 3501372020 loops to run...
     def part2(self):
         self.registers = {'a': 12, 'b': 0, 'c': 0, 'd': 0}
 
@@ -30,18 +27,13 @@ class Day23:
         self.run_instructions()
         print('Elapsed: ' + str(time.time() - t0) + 's')
 
-    # 0.14s
-    # 0.11s
     def run_instructions(self):
+
         idx = 0
         loops = 0
-
         while idx < len(self.instructions):
             loops += 1
             instruction = self.instructions[idx]
-
-            # print(str(idx) + ' : ' + self.instructions[idx])
-            # print(self.registers)
 
             steps = 1
             if instruction[0] == 'cpy':
@@ -61,8 +53,6 @@ class Day23:
 
             idx += steps
 
-
-
         print(self.registers)
         print('Loops: ' + str(loops))
 
@@ -77,19 +67,15 @@ class Day23:
         if to_modify[0] == 'cpy':
             self.instructions[to_modify_idx][0] = 'jnz'
 
-        # toggle toggle
         elif to_modify[0] == 'inc':
             self.instructions[to_modify_idx][0] = 'dec'
 
-        # dec becomes inc
         elif to_modify[0] == 'dec':
             self.instructions[to_modify_idx][0] = 'inc'
 
-        # change to cpy...
         elif to_modify[0] == 'jnz':
             self.instructions[to_modify_idx][0] = 'cpy'
 
-        # tgl is also a one-argument instruction, resulting in inc
         elif to_modify[0] == 'tgl':
             self.instructions[to_modify_idx][0] = 'inc'
 
