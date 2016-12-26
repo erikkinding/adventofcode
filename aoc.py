@@ -25,8 +25,8 @@ def main():
     # day21.Day21().part2()
     # day22.Day22().part2()
     # day23.Day23().part2()
-    # day24.Day24().part2()
-    day25.Day25().part1()
+    day24.Day24().part1()
+    # day25.Day25().part1()
     # swap_board.SwapBoard().run()
 
 if __name__ == "__main__":

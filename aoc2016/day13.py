@@ -64,9 +64,6 @@ class Day13:
         if self.is_possible(distance, x, y + 1):
             moves.append((distance, x, y + 1, (x, y)))
 
-        # m[1] = x, m[2] = y
-        # this is pretty much A* logic i guess...
-        # best_order = map(lambda c: c[1], sorted(list(zip(map(lambda m: abs(self.target[0] - m[1]) + abs(self.target[1] - m[2]), moves), moves))))
         best_order = moves
 
         # self.visited.extend(map(lambda m: m[1:], moves))
