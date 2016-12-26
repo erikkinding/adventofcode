@@ -7,30 +7,33 @@ class Day24:
     def __init__(self):
         self.blocked = []
         self.targets = []
-        self.start_pos = ()
 
         self.calculated_paths = {}
         self.visited = {}
+        self.paths = []
 
         self.shortest_path = 1000000000
         self.min = (0, 0)
         self.max = (0, 0)
 
-    # Answer:
+    # Answer: 412
     def part1(self):
         t0 = time.time()
+        self.parse_map()
+        self.paths = self.permuted_paths_to_try()
+        self.solve()
+        print('Elapsed: ' + str(time.time() - t0) + 's')
+
+    # Answer: 664
+    def part2(self):
+        t0 = time.time()
+        self.parse_map()
+        self.paths = self.permuted_paths_to_try2()
         self.solve()
         print('Elapsed: ' + str(time.time() - t0) + 's')
 
     def solve(self):
-        self.parse_map()
-        print(self.targets)
-
-        self.print_map()
-
-        paths = self.permuted_paths_to_try()
-
-        for path in paths:
+        for path in self.paths:
             path_length = 0
 
             for idx in range(len(path) - 1):
@@ -40,13 +43,9 @@ class Day24:
                 self.shortest_path = path_length
                 print('new best! ' + str(path_length))
 
-            # print('---------')
-
         print('Shortest: ' + str(self.shortest_path))
 
     def shortest_between(self, start_idx, target_idx):
-        # print(str(start_idx) + '->' + str(target_idx))
-
         # if we already calculated the path, return result of that calculation
         # paths are stored as sorted tuples; (1,2) is the same as (2,1)
         calc_key = tuple(sorted([start_idx, target_idx]))
@@ -69,14 +68,9 @@ class Day24:
             # hit target, return distance and add to calculated
             if (current[0], current[1]) == target:
                 self.calculated_paths[calc_key] = current[2]
-                print('Path for ' + str(calc_key[0]) + '->' + str(calc_key[1]) + ': ' + str(current[2]))
                 return current[2]
 
             neighbours.extend(self.get_neighbours(*current))
-
-
-        print('trololol???')
-
 
     def get_neighbours(self, x, y, n_moves):
         neighbours = []
@@ -100,12 +94,18 @@ class Day24:
 
         return neighbours
 
-
     def permuted_paths_to_try(self):
         idxs = range(len(self.targets))
         # pos 0 of targets = start, which is filtered away
         # append pos 0 to beginning as we always start from there
         return map(lambda x: [0]+list(x), itertools.permutations(idxs[1:]))
+
+    def permuted_paths_to_try2(self):
+        idxs = range(len(self.targets))
+        # pos 0 of targets = start, which is filtered away
+        # append pos 0 to beginning as we always start from there
+        # appending start position for robot to return stuff as well...
+        return map(lambda x: [0]+list(x)+[0], itertools.permutations(idxs[1:]))
 
     def better_path(self, x, y, n_moves):
         c_key = (x, y)
@@ -125,7 +125,6 @@ class Day24:
         map = open('aoc2016/input/day24.txt', 'r').read().splitlines()
 
         start = ()
-
         for ridx, row in enumerate(map):
             for cidx, c in enumerate(row):
                 if c == '#':
@@ -134,7 +133,6 @@ class Day24:
                     continue
                 else:
                     if int(c) == 0:
-                        self.start_pos = (cidx, ridx)
                         start = (cidx, ridx)
                     else:
                         self.targets.append((cidx, ridx))
