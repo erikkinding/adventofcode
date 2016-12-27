@@ -10,7 +10,9 @@ class Day22:
         self.y_max = 0
 
         self.target_data_position = []
-        self.goal_position = [0,0]
+        self.goal_position = (0, 0)
+        self.start_position = (22, 25)
+        self.target_data = (36, 0)
 
         self.blocked = []
 
@@ -44,6 +46,7 @@ class Day22:
 
         # Initialize grid layout
         self.get_grid()
+        self.print_grid()
 
         # From these positions we can start to move things around
         #possible_moves = []
@@ -54,9 +57,11 @@ class Day22:
         #            possible_moves.append((x, y))
 
         # Start position = (22, 25)
+        # End position = ()
 
         # position: [x, y, n_moves]
         # start_position = [22, 25, 0]
+
         start_position = [1, 1, [], 0]
         self.better_path(*start_position)
 
@@ -129,13 +134,11 @@ class Day22:
         return False
 
     def get_grid(self):
-        cluster_nodes = open('aoc2016/input/day22_test.txt', 'r').read().splitlines()
+        cluster_nodes = open('aoc2016/input/day22.txt', 'r').read().splitlines()
 
-        # grid = {}
         current_x = -1
         current_y = 0
         for node in cluster_nodes:
-
             split = node.split()
 
             # position
@@ -144,27 +147,37 @@ class Day22:
             y = int(position_split[2][1:])
 
             if x != current_x:
-                # grid[x] = {}
                 current_x = x
 
             # node data
             size = int(split[1][:-1])
-            #used = int(split[2][:-1])
-            #available = int(split[3][:-1])
 
-            # if size > 100:
-            if size > 15:
+            if size > 100:
                 self.blocked.append((x, y))
 
-            #data = {'size': size, 'used': used, 'available': available}
-
-            #grid[x][y] = data
             current_y = y
 
         self.x_max = current_x
         self.y_max = current_y
         self.target_data_position = [self.x_max, 0]
-        # self.grid = grid
+
+    def print_grid(self):
+        for y in range(self.y_max + 1):
+            row = ''
+            for x in range(self.x_max + 1):
+                if (x, y) in self.blocked:
+                    row += '#'
+                elif (x, y) == self.target_data:
+                    row += 'T'
+                elif (x, y) == self.goal_position:
+                    row += 'G'
+                elif (x, y) == self.start_position:
+                    row += 'S'
+                else:
+                    row += '.'
+            print(row)
+
+
 
     # for part 1...
     def get_nodes(self):

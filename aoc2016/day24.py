@@ -28,6 +28,13 @@ class Day24:
         self.solve()
         print('Elapsed: ' + str(time.time() - t0) + 's')
 
+    def partx(self):
+        t0 = time.time()
+        self.parse_map_x()
+        self.paths = self.permuted_paths_to_try()
+        self.solve()
+        print('Elapsed: ' + str(time.time() - t0) + 's')
+
     def solve(self):
         for path in self.paths:
             path_length = 0
@@ -129,6 +136,25 @@ class Day24:
                     continue
                 else:
                     if int(c) == 0:
+                        start = (cidx, ridx)
+                    else:
+                        self.targets.append((cidx, ridx))
+
+        self.targets = [start] + self.targets
+
+
+    def parse_map_x(self):
+        map = open('aoc2016/input/day22_map.txt', 'r').read().splitlines()
+
+        start = ()
+        for ridx, row in enumerate(map):
+            for cidx, c in enumerate(row):
+                if c == '#':
+                    self.blocked.append((cidx, ridx))
+                elif c == '.':
+                    continue
+                else:
+                    if c == 'S':
                         start = (cidx, ridx)
                     else:
                         self.targets.append((cidx, ridx))
