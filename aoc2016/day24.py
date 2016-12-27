@@ -7,14 +7,10 @@ class Day24:
     def __init__(self):
         self.blocked = []
         self.targets = []
-
         self.calculated_paths = {}
         self.visited = {}
         self.paths = []
-
         self.shortest_path = 1000000000
-        self.min = (0, 0)
-        self.max = (0, 0)
 
     # Answer: 412
     def part1(self):
@@ -138,19 +134,3 @@ class Day24:
                         self.targets.append((cidx, ridx))
 
         self.targets = [start] + self.targets
-
-    def print_map(self):
-        for ridx in range(5):
-            row = ''
-            for cidx in range(11):
-                pos = (cidx, ridx)
-                if pos in self.blocked:
-                    row += '#'
-                elif pos == self.start_pos:
-                    row += 'S'
-                elif pos in self.targets:
-                    row += 'T'
-                else:
-                    row += ' '
-
-            print(row)
