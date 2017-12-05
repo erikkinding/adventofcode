@@ -5,18 +5,15 @@ def part_one():
     rows = file.read().splitlines()
 
     registers = [None] * len(rows)
-    i = 0
-    for instruction in rows:
-        #print(instruction)
-        registers[i] = int(instruction)
-        i += 1
+    for idx, offset in enumerate(rows):
+        registers[idx] = int(offset)
 
     pos = 0
     jumps = 0
     while pos >= 0 and pos < len(registers):
-        instruction = registers[pos]
-        registers[pos] = instruction + 1
-        pos += instruction
+        offset = registers[pos]
+        registers[pos] = offset + 1
+        pos += offset
         jumps += 1
 
     print("Part1 Jumps: ", jumps)
@@ -27,22 +24,19 @@ def part_two():
     rows = file.read().splitlines()
 
     registers = [None] * len(rows)
-    i = 0
-    for instruction in rows:
-        #print(instruction)
-        registers[i] = int(instruction)
-        i += 1
+    for idx, offset in enumerate(rows):
+        registers[idx] = int(offset)
 
     pos = 0
     jumps = 0
     while pos >= 0 and pos < len(registers):
-        instruction = registers[pos]
-        if (instruction >= 3):
-            registers[pos] = instruction - 1
+        offset = registers[pos]
+        if (offset >= 3):
+            registers[pos] = offset - 1
         else:
-            registers[pos] = instruction + 1
+            registers[pos] = offset + 1
         
-        pos += instruction
+        pos += offset
         jumps += 1
 
     print("part2 Jumps: ", jumps)
