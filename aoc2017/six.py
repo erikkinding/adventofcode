@@ -8,7 +8,6 @@ def first_index_of(value, memory):
     for idx, mem_value in enumerate(memory):
         if mem_value == value:
             return idx
-    return 0
 
 
 def redistribute_memory(index, memory):
