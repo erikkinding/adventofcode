@@ -4,6 +4,9 @@ def get_file(filename):
     return open("input/" + filename, 'r')
 
 
+def input_as_string(filename):
+    return get_file(filename).read()
+
 def input_as_rows(filename):
     return get_file(filename).read().splitlines()
 
