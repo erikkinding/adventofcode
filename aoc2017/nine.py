@@ -6,26 +6,14 @@ inp = aoc.input_as_string("nine.txt")
 
 def replace_negations(text):
 
-    # find longest escape sequence
-    # a bit shitty as it wouldn't work if there were sequences of 6 but not 5 etc...
-    escapes = 1
-    while True:
-        try:
-            text.index('!' * escapes)
-            escapes += 1
-        except:
-            escapes -= 1
-            break
 
     # Simplify multiple negations
-    while escapes > 1:
-        find = '!' * escapes
-        insert = '!'
-        if escapes % 2 == 0:
-            insert = ''
-        text = text.replace(find, insert)
+    while True:
+        prev = len(text)
+        text = text.replace("!!", "")
+        if len(text) != prev:
+            break
 
-        escapes -= 1
 
     # Remove all ! and following negated char
     while True:
