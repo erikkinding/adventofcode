@@ -6,15 +6,6 @@ inp = aoc.input_as_string("nine.txt")
 
 def replace_negations(text):
 
-
-    # Simplify multiple negations
-    while True:
-        prev = len(text)
-        text = text.replace("!!", "")
-        if len(text) != prev:
-            break
-
-
     # Remove all ! and following negated char
     while True:
         try:
