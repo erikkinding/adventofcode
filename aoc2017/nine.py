@@ -69,6 +69,7 @@ def part1():
     print("Part 1: ", count_groups(clean_input(inp)))
 
 
+# answer 6425
 def part2():
     print("part2: see GC count from part 1")
 
