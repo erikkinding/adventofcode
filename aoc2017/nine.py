@@ -45,8 +45,6 @@ def clean_input(text):
             garbage_count += 1
 
     print("GC count: ", garbage_count)
-    # finally remove , from data
-    cleaned = cleaned.replace(',', '')
 
     return cleaned
 
