@@ -11,9 +11,8 @@ def input_as_rows(filename):
     return get_file(filename).read().splitlines()
 
 
-def input_as_values(filename, t):
-    return map(t, get_file(filename).read().split())
-
+def input_as_values(filename, t, delimiter):
+    return map(t, get_file(filename).read().split(delimiter))
 
 def input_as_grid(filename, t):
     rows = input_as_rows(filename)

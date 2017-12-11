@@ -2,18 +2,39 @@
 
 import aoc
 
-#inp = aoc.input_as_grid("ex.txt", int)
-#inp = aoc.input_as_values("ex.txt", int)
+inp = aoc.input_as_values("eleven.txt", str, ',')
 
-def part1():
-    print("part1")
+# (y, x, z)
+moves = { 'n': (1, 0, -1), 'ne': (0, 1, -1), 'se': (-1, 1, 0), 's': (-1, 0, 1), 'sw': (0, -1, 1), 'nw': (1, -1, 0) }
 
-def part2():
-    print("part2")
+def distance(x, y, z):
+    return max(abs(0 - x), abs(0 - y), abs(0 - z))
+
+def part1and2():
+    
+    # Trace position using in cubical coordinate system
+    y = 0
+    x = 0
+    z = 0
+    furthest = 0
+    for move in inp:
+        modifier = moves[move]
+        y += modifier[0]
+        x += modifier[1]
+        z += modifier[2]
+
+        current_distance = distance(x, y, z)
+        if current_distance > furthest:
+            furthest = current_distance
+    
+
+    print("Dist: ", distance(x, y, z))
+    print("Furthest: ", furthest)
+
 
 def main():
-    part1()
-    part2()
+    part1and2()
+    
 
 if __name__ == "__main__":
     main()
