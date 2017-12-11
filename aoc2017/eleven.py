@@ -7,6 +7,8 @@ inp = aoc.input_as_values("eleven.txt", str, ',')
 # (y, x, z)
 moves = { 'n': (1, 0, -1), 'ne': (0, 1, -1), 'se': (-1, 1, 0), 's': (-1, 0, 1), 'sw': (0, -1, 1), 'nw': (1, -1, 0) }
 
+# Position (0, 0, 0) is the starting point
+# Not practically needed but kept for clarity
 def distance(x, y, z):
     return max(abs(0 - x), abs(0 - y), abs(0 - z))
 
