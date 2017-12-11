@@ -12,7 +12,7 @@ def distance(x, y, z):
 
 def part1and2():
     
-    # Trace position using in cubical coordinate system
+    # Trace position using a cubical coordinate system representation of the hex grid
     y = 0
     x = 0
     z = 0
