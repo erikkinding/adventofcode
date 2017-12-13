@@ -10,25 +10,8 @@ inp = aoc.input_as_rows("thirteen.txt")
 
 # starting at zero, find current position of scanner i a given depth
 # at a given time. Depth start at 0
-def scanner_position(pics, srange):
-    if srange == 0 or pics == 0:
-        return 0
-
-    # reduce loop size
-    loop_len = (srange - 1) * 2
-    pics_reduced = pics - (int(pics / loop_len) * loop_len)
-
-    step = 1
-    position = 0
-    for i in range(pics_reduced):
-        position += step
-
-        if position == srange - 1:
-            step = -1
-        if position == 0:
-            step = 1
-
-    return position
+def scanner_position(pics, srange):    
+    return pics % ((srange - 1) * 2)
 
 
 # 632
@@ -64,6 +47,7 @@ def part1():
 
 
     print("part1 severity:", severity)
+
 
 # 3849742
 def part2():
@@ -105,6 +89,7 @@ def part2():
         min_pics += 1
 
     print("part2 min pics:", min_pics)
+
 
 def main():
     part1()
