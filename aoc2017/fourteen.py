@@ -7,6 +7,7 @@ import aoc
 
 import operator
 from functools import reduce
+from collections import defaultdict
 
 def run_hash(inp, rounds):
 
@@ -69,10 +70,28 @@ def count_bits(hashes):
     return bit_sum
 
 
+# rewrite to return dict using (x, y) tuple as key?
+# guess it's a good idea, helps with bounds checking...
+def bit_grid(hashes):
 
+    grid = []
+    byte_size = 8
+    for row in hashes:
+        grid_row = []
+        for byte in row:
+            for i in range(byte_size):
+                bit = (byte >> i) & 1 == 1
+                grid_row.append(bit)
+
+        grid.append(grid_row)
+
+
+    return grid
+
+# 8190
 def part1():
-    #inp = 'flqrgnkx'
-    inp = 'ffayrhll'
+    inp = 'flqrgnkx' # test inp
+    #inp = 'ffayrhll'
 
     hashes = []
     for i in range(128):
@@ -82,11 +101,83 @@ def part1():
 
     print("part1", n_bits)
 
+def get_neighbours(x, y, grid, seen):
+    print("gn", x, y)
+    neighbours = []
+
+
+
+    if(y < 127 and grid[y+1][x] and not (x, y+1) in seen):
+        neighbours.append((x, y+1))
+    
+    if(y > 0 and grid[y-1][x] and not (x, y-1) in seen):
+        neighbours.append((x, y-1))
+
+    if(x < 127 and grid[y][x+1] and not (x+1, y) in seen):
+        neighbours.append((x+1, y))
+
+    if(x > 0 and grid[y][x-1] and not (x-1, y) in seen):
+        neighbours.append((x-1, y))
+    
+
+    return neighbours
+
+
+def count_groups(grid):
+
+    seen = []
+    groups = 0    
+    # check each cell in grid. if 'used', do bfs and when done incr group count
+    # after group count, set all those as not used 
+    for y in range(128):
+        for x in range(128):
+            
+            if grid[y][x] and not (x, y) in seen:
+                seen.append((x, y))
+                groups += 1
+
+                group_members = []
+                potential = get_neighbours(x, y, grid, seen)
+                group_members.extend(potential)
+                for n in potential:
+                        seen.append(n)
+                while any(potential):
+                    current = potential.pop(0)
+                    
+                    next_neighbours = get_neighbours(current[0], current[1], grid, seen)
+                    group_members.extend(next_neighbours)
+                    potential.extend(next_neighbours)
+                    
+                    for n in potential:
+                        seen.append(n)
+                    
+
+                
+
+
+    return groups
+
+# 1231 too high
 def part2():
-    print("part2")
+    inp = 'flqrgnkx' # test inp
+    #inp = 'ffayrhll'
+
+    # 00101011
+    # ##.#.#..
+
+    hashes = []
+    for i in range(128):
+        hashes.append(run_hash(inp + '-' + str(i), 64))
+
+    grid = bit_grid(hashes)
+    print('Got grid, checking groups...')
+    groups = count_groups(grid)
+
+    print("part2", groups)
+
 
 def main():
-    part1()
+    #part1()
     part2()
 
 if __name__ == "__main__":
