@@ -101,22 +101,24 @@ def part1():
 
     print("part1", n_bits)
 
-def get_neighbours(x, y, grid, seen):
-    print("gn", x, y)
+def get_neighbours(x, y, grid):
+    # print("gn", x, y)
     neighbours = []
 
-
-
-    if(y < 127 and grid[y+1][x] and not (x, y+1) in seen):
+    if(y < 127 and grid[y+1][x]):
+        grid[y+1][x] = False
         neighbours.append((x, y+1))
     
-    if(y > 0 and grid[y-1][x] and not (x, y-1) in seen):
+    if(y > 0 and grid[y-1][x]):
+        grid[y-1][x] = False
         neighbours.append((x, y-1))
 
-    if(x < 127 and grid[y][x+1] and not (x+1, y) in seen):
+    if(x < 127 and grid[y][x+1]):
+        grid[y][x+1] = False
         neighbours.append((x+1, y))
 
-    if(x > 0 and grid[y][x-1] and not (x-1, y) in seen):
+    if(x > 0 and grid[y][x-1]):
+        grid[y][x-1] = False
         neighbours.append((x-1, y))
     
 
@@ -132,32 +134,22 @@ def count_groups(grid):
     for y in range(128):
         for x in range(128):
             
-            if grid[y][x] and not (x, y) in seen:
-                seen.append((x, y))
-                groups += 1
-
-                group_members = []
-                potential = get_neighbours(x, y, grid, seen)
-                group_members.extend(potential)
-                for n in potential:
-                        seen.append(n)
-                while any(potential):
-                    current = potential.pop(0)
-                    
-                    next_neighbours = get_neighbours(current[0], current[1], grid, seen)
-                    group_members.extend(next_neighbours)
-                    potential.extend(next_neighbours)
-                    
-                    for n in potential:
-                        seen.append(n)
-                    
-
+            if grid[y][x]: # and not ((x, y) in seen):
                 
-
+                groups += 1
+                
+                neighbours = get_neighbours(x, y, grid)
+                
+                while any(neighbours):
+                    current = neighbours.pop(0)
+                    neighbours.extend(get_neighbours(current[0], current[1], grid))
+       
 
     return groups
 
 # 1231 too high
+# 1137 too high
+# test: 1242
 def part2():
     inp = 'flqrgnkx' # test inp
     #inp = 'ffayrhll'
