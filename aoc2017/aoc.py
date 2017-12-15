@@ -1,4 +1,13 @@
  # -*- coding: utf-8 -*-
+import time
+
+def time_it(f, *args):
+    t0 = time.time()
+    ret = f(*args)
+    t1 = time.time()
+    td = t1 - t0
+    print("Executed in", td, "seconds")
+    return ret
 
 def get_file(filename):
     return open("input/" + filename, 'r')

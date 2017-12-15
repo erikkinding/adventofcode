@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
-import aoc
+from aoc import *
+import time
 
 af = 16807
 bf = 48271
@@ -18,7 +19,7 @@ def part1():
         if a & 65535 == b & 65535:
             score += 1
 
-    print("score: ", score)
+    print("Part 1 score: ", score)
 
 
 # 336
@@ -55,8 +56,8 @@ def part2():
     print("Part 2 score: ", score)
 
 def main():
-    part1()
-    part2()
+    time_it(part1)
+    time_it(part2)
 
 if __name__ == "__main__":
     main()
