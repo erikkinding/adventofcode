@@ -64,7 +64,7 @@ def count_bits(hashes):
     for row in hashes:
         for byte in row:
             for i in range(byte_size):
-                bit = (byte >> i) & 1
+                bit = (byte >> byte_size-i-1) & 1
                 bit_sum += bit
 
     return bit_sum
@@ -80,7 +80,7 @@ def bit_grid(hashes):
         grid_row = []
         for byte in row:
             for i in range(byte_size):
-                bit = (byte >> i) & 1 == 1
+                bit = (byte >> byte_size-i-1) & 1 == 1
                 grid_row.append(bit)
 
         grid.append(grid_row)
@@ -89,9 +89,10 @@ def bit_grid(hashes):
     return grid
 
 # 8190
+# test 8108
 def part1():
-    inp = 'flqrgnkx' # test inp
-    #inp = 'ffayrhll'
+    #inp = 'flqrgnkx' # test inp
+    inp = 'ffayrhll'
 
     hashes = []
     for i in range(128):
@@ -105,19 +106,19 @@ def get_neighbours(x, y, grid):
     # print("gn", x, y)
     neighbours = []
 
-    if(y < 127 and grid[y+1][x]):
+    if y < 127 and grid[y+1][x]:
         grid[y+1][x] = False
         neighbours.append((x, y+1))
     
-    if(y > 0 and grid[y-1][x]):
+    if y > 0 and grid[y-1][x]:
         grid[y-1][x] = False
         neighbours.append((x, y-1))
 
-    if(x < 127 and grid[y][x+1]):
+    if x < 127 and grid[y][x+1]:
         grid[y][x+1] = False
         neighbours.append((x+1, y))
 
-    if(x > 0 and grid[y][x-1]):
+    if x > 0 and grid[y][x-1] :
         grid[y][x-1] = False
         neighbours.append((x-1, y))
     
@@ -127,35 +128,28 @@ def get_neighbours(x, y, grid):
 
 def count_groups(grid):
 
-    seen = []
-    groups = 0    
+    groups = 0
     # check each cell in grid. if 'used', do bfs and when done incr group count
     # after group count, set all those as not used 
     for y in range(128):
         for x in range(128):
             
-            if grid[y][x]: # and not ((x, y) in seen):
-                
+            if grid[y][x]:
+                grid[y][x] = False
                 groups += 1
                 
                 neighbours = get_neighbours(x, y, grid)
-                
                 while any(neighbours):
                     current = neighbours.pop(0)
                     neighbours.extend(get_neighbours(current[0], current[1], grid))
-       
 
     return groups
 
-# 1231 too high
-# 1137 too high
+# 1134
 # test: 1242
 def part2():
-    inp = 'flqrgnkx' # test inp
-    #inp = 'ffayrhll'
-
-    # 00101011
-    # ##.#.#..
+    #inp = 'flqrgnkx' # test inp
+    inp = 'ffayrhll'
 
     hashes = []
     for i in range(128):
@@ -169,7 +163,7 @@ def part2():
 
 
 def main():
-    #part1()
+    part1()
     part2()
 
 if __name__ == "__main__":
