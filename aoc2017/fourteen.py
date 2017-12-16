@@ -88,6 +88,7 @@ def bit_grid(hashes):
 
     return grid
 
+
 # 8190
 # test 8108
 def part1():
@@ -102,24 +103,21 @@ def part1():
 
     print("part1", n_bits)
 
+
 def get_neighbours(x, y, grid):
-    # print("gn", x, y)
+
     neighbours = []
 
     if y < 127 and grid[y+1][x]:
-        grid[y+1][x] = False
         neighbours.append((x, y+1))
     
     if y > 0 and grid[y-1][x]:
-        grid[y-1][x] = False
         neighbours.append((x, y-1))
 
     if x < 127 and grid[y][x+1]:
-        grid[y][x+1] = False
         neighbours.append((x+1, y))
 
     if x > 0 and grid[y][x-1] :
-        grid[y][x-1] = False
         neighbours.append((x-1, y))
     
 
@@ -140,10 +138,14 @@ def count_groups(grid):
                 
                 neighbours = get_neighbours(x, y, grid)
                 while any(neighbours):
+                    # Set any member in group as False as this
+                    # represent the "visited" state
                     current = neighbours.pop(0)
+                    grid[current[1]][current[0]] = False
                     neighbours.extend(get_neighbours(current[0], current[1], grid))
 
     return groups
+
 
 # 1134
 # test: 1242
