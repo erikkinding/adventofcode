@@ -2,7 +2,7 @@
 from collections import Counter
 import aoc
 
-inp = aoc.input_as_rows("seven.txt")
+inp = aoc.input_as_rows("seven_test.txt")
 
 # node? (name, weight, connections)
 def print_stuff(stuff):
@@ -29,9 +29,33 @@ def setup_programs():
     return tree
 
 
-sums = {}
+name_value = {}
+name_connections = {}
 def part2():
-    print("...")
+    for r in inp:
+        rs = r.split()
+
+        # map programs to their weight
+        name = rs[0]
+        value = int(rs[1].replace('(', '').replace(')', ''))
+        name_value[name] = value
+
+        # if a program has connections, setup
+        rs = r.split(" -> ")
+        if len(rs) > 1:
+            connections = rs[1].split(', ')
+            name_connections[name] = connections
+
+
+    # start at root, traverse tree
+    current = 'tknk' # test
+
+    while True:
+        break;
+
+
+
+
 
 
 # azqje
@@ -56,8 +80,8 @@ def part1():
 
 def main():
     #print(inp)
-    part1()
-    #part2()
+    #part1()
+    part2()
 
 if __name__ == "__main__":
     main()
