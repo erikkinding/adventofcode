@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from aoc import *
-
+from numba import jit
 
 # 1547
 def part1():
@@ -25,6 +25,7 @@ def part1():
 
 
 # 31154878
+@jit
 def part2():
 
     steps = 369
