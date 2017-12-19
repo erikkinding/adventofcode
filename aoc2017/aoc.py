@@ -27,15 +27,15 @@ def input_as_grid(filename, t):
     rows = input_as_rows(filename)
     grid = []
     for row in rows:
-        grid.append(map(t, row.split()))
+        grid.append(list(map(t, list(row))))
 
     return grid
 
 
-def input_as_grid(filename):
-    rows = input_as_rows(filename)
-    grid = []
-    for row in rows:
-        grid.append(row.split())
+#def input_as_grid(filename):
+#    rows = input_as_rows(filename)
+#    grid = []
+#    for row in rows:
+#        grid.append(row.split())
 
-    return grid
+#    return grid
