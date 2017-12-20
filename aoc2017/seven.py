@@ -37,11 +37,8 @@ def setup():
         # if a program has connections, setup
         rs = r.split(" -> ")
         if len(rs) > 1:
-
             connections = rs[1].split(', ')
             nc_temp[name] = connections
-            if name == 'inwmb':
-                print("DEBUG", connections)
         else:
             nc_temp[name] = []
 
@@ -61,10 +58,6 @@ def part2():
     previous_connections = []
     current_connections = []
     while True:
-        print('ncl', len(config.name_connections))
-        if current == 'inwmb':
-            print("MATCH")
-        print("nc", config.name_connections[current])
         current_connections = config.name_connections[current][:]
 
         towers = []
@@ -76,12 +69,10 @@ def part2():
         
         # indicates diffs were among previous connections
         if dt is None:
-            print('NONE BREAK:', towers)
             break
         # else select diffing tower to continue the hunt
         else:
             previous_connections = towers[:]
-            print("else, setting current to", dt[0])
             current = dt[0]
         
     for t in previous_connections:
@@ -110,7 +101,6 @@ def get_tower_weight(node, config):
         current_co.extend(config.name_connections[cc])
 
     return weight
-
 
 
 # azqje
